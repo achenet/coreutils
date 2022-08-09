@@ -146,6 +146,9 @@ impl<'a> From<&'a str> for Rfc3339Format {
 pub fn uumain(args: impl uucore::Args) -> UResult<()> {
     let matches = uu_app().try_get_matches_from(args)?;
 
+    // Get format from env if it's there
+    let lc_time = std::env::var("LC_TIME");
+
     let format = if let Some(form) = matches.value_of(OPT_FORMAT) {
         if !form.starts_with('+') {
             return Err(USimpleError::new(
